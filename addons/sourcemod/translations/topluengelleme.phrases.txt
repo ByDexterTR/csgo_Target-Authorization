@@ -1,0 +1,10 @@
+"Phrases"
+{
+	"NoAccessTarget"
+	{
+		"en"			"You do not have access to this target"
+		"tr"			"Bu hedefe erişiminiz yok"
+		"de"			"Sie haben keinen Zugriff auf dieses Ziel"
+		"fr"			"Vous n'avez pas accès à cette destination"
+	}
+}
