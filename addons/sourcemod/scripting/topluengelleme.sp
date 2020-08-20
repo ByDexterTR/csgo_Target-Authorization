@@ -9,7 +9,7 @@
 
 #define DEBUG
 #define PLUGIN_AUTHOR "ByDexter"
-#define PLUGIN_VERSION "1.1"
+#define PLUGIN_VERSION "1.1b"
 
 public Plugin myinfo = 
 {
@@ -62,15 +62,8 @@ public Action Control_CommandX(int client, char []command, int args)
 		}
 		else 
 		{
-			char arg2[192];
 			char arg1[192];
 			GetCmdArg(1, arg1, 192);
-			GetCmdArg(1, arg2, 192);
-			if (StrContains(arg1, "@all", true) || StrContains(arg1, "@bots", true) || StrContains(arg1, "@alive", true) || StrContains(arg1, "@dead", true) || StrContains(arg1, "@humans", true) || StrContains(arg1, "@aim", true) || StrContains(arg1, "@!me", true) || StrContains(arg1, "@ct", true) || StrContains(arg1, "@t", true))
-			{
-				ReplyToCommand(client, "[SM] %t", "NoAccessTarget");
-				return Plugin_Stop;
-			}
 			if (StrContains(arg1, "@all", true) || StrContains(arg1, "@bots", true) || StrContains(arg1, "@alive", true) || StrContains(arg1, "@dead", true) || StrContains(arg1, "@humans", true) || StrContains(arg1, "@aim", true) || StrContains(arg1, "@!me", true) || StrContains(arg1, "@ct", true) || StrContains(arg1, "@t", true))
 			{
 				ReplyToCommand(client, "[SM] %t", "NoAccessTarget");
