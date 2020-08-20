@@ -9,7 +9,7 @@
 
 #define DEBUG
 #define PLUGIN_AUTHOR "ByDexter"
-#define PLUGIN_VERSION "1.0"
+#define PLUGIN_VERSION "1.1"
 
 public Plugin myinfo = 
 {
@@ -23,29 +23,34 @@ public Plugin myinfo =
 public void OnPluginStart()
 {
 	LoadTranslations("topluengelleme.phrases.txt");
-	AddCommandListener(Control_CommandX, "sm_kick");
-	AddCommandListener(Control_CommandX, "sm_beacon");
-	AddCommandListener(Control_CommandX, "sm_timebomb");
-	AddCommandListener(Control_CommandX, "sm_burn");
-	AddCommandListener(Control_CommandX, "sm_firebomb");
-	AddCommandListener(Control_CommandX, "sm_freeze");
-	AddCommandListener(Control_CommandX, "sm_freezebomb");
-	AddCommandListener(Control_CommandX, "sm_gravity");
-	AddCommandListener(Control_CommandX, "sm_blind");
-	AddCommandListener(Control_CommandX, "sm_noclip");
-	AddCommandListener(Control_CommandX, "sm_drug");
-	AddCommandListener(Control_CommandX, "sm_slap");
-	AddCommandListener(Control_CommandX, "sm_slay");
-	AddCommandListener(Control_CommandX, "sm_rename");
-	AddCommandListener(Control_CommandX, "sm_team");
-	AddCommandListener(Control_CommandX, "sm_swap");
-	AddCommandListener(Control_CommandX, "sm_hp");
-	AddCommandListener(Control_CommandX, "sm_respawn");
-	AddCommandListener(Control_CommandX, "sm_strip");
-	AddCommandListener(Control_CommandX, "sm_stripall");
-	AddCommandListener(Control_CommandX, "sm_krediver");
-	AddCommandListener(Control_CommandX, "sm_givecredits");
-} 
+}
+
+void LoadConfig()
+{
+	KeyValues Kv = new KeyValues("ByDexter");
+	
+	char sBuffer[256];
+	BuildPath(Path_SM, sBuffer, sizeof(sBuffer), "configs/dexter/command_list.ini");
+	if (!FileToKeyValues(Kv, sBuffer)) SetFailState("%s dosyası bulunamadı.", sBuffer);
+	
+	if (Kv.GotoFirstSubKey())
+	{
+		do
+		{
+			if (Kv.GetSectionName(sBuffer, sizeof(sBuffer)))
+			{
+				AddCommandListener(Control_CommandX, sBuffer);
+			}
+		} 
+		while (Kv.GotoNextKey());
+	}
+	delete Kv;
+}
+
+public void OnMapStart()
+{
+	LoadConfig();
+}
 
 public Action Control_CommandX(int client, char []command, int args)
 {
@@ -61,12 +66,12 @@ public Action Control_CommandX(int client, char []command, int args)
 			char arg1[192];
 			GetCmdArg(1, arg1, 192);
 			GetCmdArg(1, arg2, 192);
-			if (StrEqual(arg1, "@all", true) || StrEqual(arg1, "@bots", true) || StrEqual(arg1, "@alive", true) || StrEqual(arg1, "@dead", true) || StrEqual(arg1, "@humans", true) || StrEqual(arg1, "@aim", true) || StrEqual(arg1, "@!me", true) || StrEqual(arg1, "@ct", true) || StrEqual(arg1, "@t", true))
+			if (StrContains(arg1, "@all", true) || StrContains(arg1, "@bots", true) || StrContains(arg1, "@alive", true) || StrContains(arg1, "@dead", true) || StrContains(arg1, "@humans", true) || StrContains(arg1, "@aim", true) || StrContains(arg1, "@!me", true) || StrContains(arg1, "@ct", true) || StrContains(arg1, "@t", true))
 			{
 				ReplyToCommand(client, "[SM] %t", "NoAccessTarget");
 				return Plugin_Stop;
 			}
-			if (StrEqual(arg1, "@all", true) || StrEqual(arg1, "@bots", true) || StrEqual(arg1, "@alive", true) || StrEqual(arg1, "@dead", true) || StrEqual(arg1, "@humans", true) || StrEqual(arg1, "@aim", true) || StrEqual(arg1, "@!me", true) || StrEqual(arg1, "@ct", true) || StrEqual(arg1, "@t", true))
+			if (StrContains(arg1, "@all", true) || StrContains(arg1, "@bots", true) || StrContains(arg1, "@alive", true) || StrContains(arg1, "@dead", true) || StrContains(arg1, "@humans", true) || StrContains(arg1, "@aim", true) || StrContains(arg1, "@!me", true) || StrContains(arg1, "@ct", true) || StrContains(arg1, "@t", true))
 			{
 				ReplyToCommand(client, "[SM] %t", "NoAccessTarget");
 				return Plugin_Stop;
