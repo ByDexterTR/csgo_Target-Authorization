@@ -8,17 +8,16 @@ public Plugin myinfo =
 	name = "Target Authorization", 
 	author = "ByDexter", 
 	description = "Officials without the letter Z cannot target", 
-	version = "1.2", 
+	version = "1.3", 
 	url = "https://steamcommunity.com/id/ByDexterTR - ByDexter#5494"
 };
 
 public void OnPluginStart()
 {
 	LoadTranslations("topluengelleme.phrases");
-	LoadConfig();
 }
 
-void LoadConfig()
+public void OnMapStart()
 {
 	KeyValues Kv = new KeyValues("ByDexter");
 	
@@ -40,18 +39,13 @@ void LoadConfig()
 	delete Kv;
 }
 
-public void OnMapStart()
-{
-	LoadConfig();
-}
-
 public Action Control_CommandX(int client, const char[] command, int args)
 {
-	if (!CheckCommandAccess(client, "root_admin", ADMFLAG_ROOT, false))
+	if (client > 0 && !CheckCommandAccess(client, "not_a_command", ADMFLAG_ROOT, true))
 	{
-		char arg1[192];
-		GetCmdArg(1, arg1, 192);
-		if (StrContains(arg1, "@all", true) || StrContains(arg1, "@bots", true) || StrContains(arg1, "@alive", true) || StrContains(arg1, "@dead", true) || StrContains(arg1, "@humans", true) || StrContains(arg1, "@aim", true) || StrContains(arg1, "@!me", true) || StrContains(arg1, "@ct", true) || StrContains(arg1, "@t", true))
+		char arg1[12];
+		GetCmdArg(1, arg1, 12);
+		if (strncmp(arg1, "@all", 4) == 0 || strncmp(arg1, "@bots", 5) == 0 || strncmp(arg1, "@alive", 6) == 0 || strncmp(arg1, "@dead", 5) == 0 || strncmp(arg1, "@humans", 7) == 0 || strncmp(arg1, "@aim", 4) == 0 || strncmp(arg1, "@!me", 4) == 0 || strncmp(arg1, "@ct", 3) == 0 || strncmp(arg1, "@t", 2) == 0)
 		{
 			ReplyToCommand(client, "[SM] %t", "NoAccessTarget");
 			return Plugin_Stop;
